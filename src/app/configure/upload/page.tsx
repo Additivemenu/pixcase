@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 
+// step 1: upload image page
 const Page = () => {
   // hooks ------------------------------------------------------------
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
@@ -25,9 +26,10 @@ const Page = () => {
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     // once the file is uploaded, we will redirect to the design page
     onClientUploadComplete: ([data]) => {
+      // the [data] is coming from api/uploadthing/core.ts, were we make api calling
       const configId = data.serverData.configId;
       startTransition(() => {
-        router.push(`/configure/design?id=${configId}`);
+        router.push(`/configure/design?id=${configId}`); // ! forward to step2
       });
     },
     onUploadProgress(p) {

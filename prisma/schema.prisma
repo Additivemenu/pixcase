@@ -12,3 +12,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Configuration{
+  id String @id @default(cuid())
+  width Int
+  height Int
+  imageUrl String   // original image url
+  croppedImageUrl String?   // the image url after cropping when user drag img onto their phone
+}
