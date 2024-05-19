@@ -14,10 +14,45 @@ datasource db {
 }
 
 
+enum OrderStatus{
+  fuilfilled
+  shipped
+  awaiting_shipment
+}
+
+enum PhoneModel{
+  iphonex
+  iphone11
+  iphone12
+  iphone13
+  iphone14
+  iphone15
+}
+
+enum CaseMaterial{
+  silicone
+  polycarbonate
+}
+
+enum CaseFinish{
+  smooth
+  textured
+}
+
+enum CaseColor{
+  black 
+  blue
+  rose
+}
+
 model Configuration{
   id String @id @default(cuid())
   width Int
   height Int
   imageUrl String   // original image url
+  color CaseColor?
+  model PhoneModel?
+  material CaseMaterial?
+  finish CaseFinish?
   croppedImageUrl String?   // the image url after cropping when user drag img onto their phone
 }
