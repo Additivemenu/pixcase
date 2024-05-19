@@ -27,6 +27,7 @@ export const ourFileRouter = {
 
       //  use info from uploadthing to create or update records in our db
       if (!configId) {
+        // this is triggered in step1 when user upload their img
         const configuration = await db.configuration.create({
           data: {
             imageUrl: file.url,
@@ -37,6 +38,7 @@ export const ourFileRouter = {
 
         return { configId: configuration.id };
       } else {
+        // this is triggered in step2 when user upload their cropped img
         const updatedConfiguration = await db.configuration.update({
           where: { id: configId },
           data: {
