@@ -11,9 +11,16 @@ import { ArrowRight, Check } from "lucide-react";
 import { format } from "path";
 import React, { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
+import { createCheckoutSession } from "./actions";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 // we use info user just configured in step2 to render the preview
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
+  // hooks -------------------------------------------------------
+  const router = useRouter();
+  const { toast } = useToast();
+
   const [showConfetti, setShowConfetti] = useState(false);
   useEffect(() => {
     setShowConfetti(true);
@@ -35,6 +42,28 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     totalPrice += PRODUCT_PRICES.material.polycarbonate;
   }
 
+  // !
+  const { mutate: createPaymentSession } = useMutation({
+    mutationKey: ["get-checkout-session"],
+    mutationFn: createCheckoutSession, //! rpc in actions.ts
+    onSuccess: ({ url }) => {
+      // {url} is returned from mutationFn
+      if (url) {
+        router.push(url);
+      } else {
+        throw new Error("Unable to retrieve payment URL");
+      }
+    },
+    onError: () => {
+      toast({
+        title: "something went wrong",
+        description: "There was an error on our end, please try again later",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // jsx ---------------------------------------------------------
   return (
     <>
       <div
@@ -132,8 +161,11 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
             <div className="mt-8 flex justify-end pb-12">
               <Button
-                disabled={true}
-                isLoading={true}
+                onClick={() =>
+                  createPaymentSession({ configId: configuration.id })
+                }
+                // disabled={true}
+                // isLoading={true}
                 loadingText="loading"
                 className="px-4 sm:px-6 lg:px-8"
               >
