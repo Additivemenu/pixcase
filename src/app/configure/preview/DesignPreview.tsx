@@ -14,12 +14,17 @@ import Confetti from "react-dom-confetti";
 import { createCheckoutSession } from "./actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import LoginModal from "@/components/modals/LoginModal";
 
 // we use info user just configured in step2 to render the preview
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   // hooks -------------------------------------------------------
   const router = useRouter();
   const { toast } = useToast();
+  const { id } = configuration;
+  const { user } = useKindeBrowserClient();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);    // controls the login-modal
 
   const [showConfetti, setShowConfetti] = useState(false);
   useEffect(() => {
@@ -63,6 +68,18 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     },
   });
 
+  // !
+  const handleCheckout = () => {
+    if (user) {
+      // create the payment session if user is logged in
+      createPaymentSession({ configId: id });
+    } else {
+      // need to login
+      localStorage.setItem("configurationId", id);    // before login, save the configurationId to localStorage
+      setIsLoginModalOpen(true);
+    }
+  };
+
   // jsx ---------------------------------------------------------
   return (
     <>
@@ -75,6 +92,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
           config={{ elementCount: 200, spread: 90 }}
         />
       </div>
+
+      <LoginModal isOpen={isLoginModalOpen} setIsOpen={setIsLoginModalOpen} />
 
       <div className="mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12 ">
         <div className="sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2">
@@ -161,9 +180,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
             <div className="mt-8 flex justify-end pb-12">
               <Button
-                onClick={() =>
-                  createPaymentSession({ configId: configuration.id })
-                }
+                onClick={() => handleCheckout()}
                 // disabled={true}
                 // isLoading={true}
                 loadingText="loading"

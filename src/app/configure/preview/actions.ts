@@ -6,7 +6,7 @@ import { stripe } from "@/lib/stripe";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Order } from "@prisma/client";
 
-// rpc
+// rpc by next under the hood
 export const createCheckoutSession = async ({
   configId,
 }: {
