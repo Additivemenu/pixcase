@@ -78,6 +78,7 @@ export const createCheckoutSession = async ({
     shipping_address_collection: {
       allowed_countries: ["DE", "US", "AU"],
     },
+    // we will use the metadata in stripe webhook
     metadata: {
       userId: user.id,
       orderId: order.id,
