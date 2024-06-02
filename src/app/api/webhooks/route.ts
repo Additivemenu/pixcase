@@ -4,6 +4,9 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+// this is a route handler, handling the request from stripe webhook as we just 
+// configured the webhook URL in the Stripe dashboard to point to this endpoint.
+// essentially the same as microservice: stripe payment service -> our ordering service
 export async function POST(req: NextRequest) {
   try {
     const body = await req.text();
@@ -17,6 +20,9 @@ export async function POST(req: NextRequest) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
+
+
+    // verify the event is from stripe
     if (event.type === "checkout.session.completed") {
       if (!event.data.object.customer_details?.email) {
         throw new Error("Missing user email");
@@ -65,7 +71,9 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // ! where this response is sent to? - stripe
     return NextResponse.json({ result: event, ok: true });
+
   } catch (err) {
     console.error(err);
     // send this to sentry (optional, more used in enterprise level app)
