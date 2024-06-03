@@ -4,7 +4,12 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// this is a route handler, handling the request from stripe webhook as we just 
+import { Resend } from "resend";
+import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// this is a route handler, handling the request from stripe webhook as we just
 // configured the webhook URL in the Stripe dashboard to point to this endpoint.
 // essentially the same as microservice: stripe payment service -> our ordering service
 export async function POST(req: NextRequest) {
@@ -20,7 +25,6 @@ export async function POST(req: NextRequest) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-
 
     // verify the event is from stripe
     if (event.type === "checkout.session.completed") {
@@ -43,7 +47,7 @@ export async function POST(req: NextRequest) {
       const shippingAddress = session.shipping_details!.address;
 
       // sync db
-      await db.order.update({
+      const updatedOrder = await db.order.update({
         where: { id: orderId },
         data: {
           isPaid: true,
@@ -69,11 +73,30 @@ export async function POST(req: NextRequest) {
           },
         },
       });
+
+      // ! send email using resend lib
+      await resend.emails.send({
+        from: "PixCase <spoonlee24k@gmail.com>",
+        to: [event.data.object.customer_details.email],
+        subject: "Thanks for your order!",
+        react: OrderReceivedEmail({
+          orderId,
+          orderDate: updatedOrder.createdAt.toDateString(),
+          // @ts-ignore
+          shippingAddress: {
+            name: session.customer_details!.name!,
+            city: shippingAddress!.city!,
+            country: shippingAddress!.country!,
+            postalCode: shippingAddress!.postal_code!,
+            street: shippingAddress!.line1!,
+            state: shippingAddress!.state!,
+          },
+        }),
+      });
     }
 
     // ! where this response is sent to? - stripe
     return NextResponse.json({ result: event, ok: true });
-
   } catch (err) {
     console.error(err);
     // send this to sentry (optional, more used in enterprise level app)
