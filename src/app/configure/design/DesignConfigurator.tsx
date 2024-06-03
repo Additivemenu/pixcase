@@ -45,7 +45,7 @@ const DesignConfigurator = ({
   const router = useRouter();
 
   // tanstack react-query hook: inject an object to the hook, and hook return some functions or state back
-  const { mutate: saveConfig } = useMutation({
+  const { mutate: saveConfig, isPending } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args: SaveConfigArgs) => {
       await Promise.all([saveConfiguration(), _saveConfig(args)]); // ! ??? Promise.all(), here we make rpc call for _saveConfig behind the scene
@@ -408,6 +408,9 @@ const DesignConfigurator = ({
                 )}
               </p>
               <Button
+                isLoading={isPending}
+                disabled={isPending}
+                loadingText="Saving"
                 onClick={() => {
                   // saveConfig is from tanstack react-query hook
                   saveConfig({
