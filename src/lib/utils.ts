@@ -37,5 +37,6 @@ export function constructMetadata({
       images: [image],
     },
     icons,
+    metadataBase: new URL("https://pixcase.vercel.app/"), // product url
   };
 }
