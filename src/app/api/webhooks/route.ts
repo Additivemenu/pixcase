@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
       // ! send email using resend lib
       await resend.emails.send({
-        from: "PixCase <spoonlee24k@gmail.com>",
+        from: process.env.RESEND_FROM_EMAIL!,
         to: [event.data.object.customer_details.email],
         subject: "Thanks for your order!",
         react: OrderReceivedEmail({
