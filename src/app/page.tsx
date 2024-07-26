@@ -229,12 +229,14 @@ export default function Home() {
           </div>
         </MaxWidthWrapper>
 
+        {/* animation of reviews */}
         <div className="pt-16">
           <Reviews />
           {/* <ReviewsCopy /> */}
         </div>
       </section>
 
+      {/* bottom  */}
       <section>
         <MaxWidthWrapper className="py-24">
           <div className="mb-12 px-6 lg:px-8">

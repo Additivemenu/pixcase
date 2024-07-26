@@ -124,7 +124,7 @@ function Review({ imgSrc, className, ...props }: ReviewProps) {
 
 function ReviewGrid() {
   const containerRef = useRef<HTMLDivElement | null>(null); // use to check if the container is in view
-  const isInView = useInView(containerRef, { once: true, amount: 0.4 });
+  const isInView = useInView(containerRef, { once: true, amount: 0.4 });    // framer-motion hook to check if the container is in view
 
   const columns = splitArray(PHONES, 3); // convert a 1D array to a 2D array
   const column1 = columns[0];
