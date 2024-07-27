@@ -38,6 +38,7 @@ Database:
 + [stripe](https://docs.stripe.com/payments/checkout): Payment service
 + [kinde](https://docs.kinde.com/developer-tools/sdks/backend/nextjs-sdk/): Auth service
 + [resend](https://www.resend.com/docs/introduction): Email service
+  + integrated with [react-email](https://react.email/docs/introduction) for build email page
   
 
 Deployed on vercel
