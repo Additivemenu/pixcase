@@ -119,6 +119,7 @@ export default function Home() {
           px-8 sm:px-16 md:px-0 mt-32 lg:mx-0 lg:mt-20 h-fit"
           >
             <div className="relative md:max-w-xl">
+              {/* use Nextjs Image component may incur you extra money if high volume of visit */}
               <img
                 src="your-image.png"
                 className="absolute w-40 lg:w-52 left-56 -top-20 select-none 

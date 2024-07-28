@@ -186,6 +186,7 @@ const DesignConfigurator = ({
               className="pointer-events-none z-50 select-none"
             />
           </AspectRatio>
+
           {/* gray out area  */}
           <div
             className="absolute z-40 inset-0 left-[3px] top-px right-[3px] bottom-px rounded-[32px] 
@@ -238,6 +239,7 @@ const DesignConfigurator = ({
         </Rnd>
       </div>
 
+      {/* options panel */}
       <div className="h-[37.5rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
         <ScrollArea className="relative flex-1 overflow-auto">
           <div

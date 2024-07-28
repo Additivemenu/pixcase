@@ -10,7 +10,7 @@ import Phone from "./Phone";
  * animation effect for the reviews:
  * phone case will flow up in multiple columns
  * 1. note how to use tailwind css animation and keyframes
- * 2. note how to use hooks in framer-motion to detect if an element is in view
+ * 2. note how to use hooks in framer-motion to detect if an element is in view (thought it was still on top of JS web api)
  * 3. responsive design for different screen sizes
  */
 
@@ -122,6 +122,10 @@ function Review({ imgSrc, className, ...props }: ReviewProps) {
   );
 }
 
+/**
+ * 
+ * @returns phone case array that flows up in multiple columns
+ */
 function ReviewGrid() {
   const containerRef = useRef<HTMLDivElement | null>(null); // use to check if the container is in view
   const isInView = useInView(containerRef, { once: true, amount: 0.4 });    // framer-motion hook to check if the container is in view
