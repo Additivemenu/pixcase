@@ -11,6 +11,16 @@ const inter = Recursive({ subsets: ["latin"] }); // for font setting
 
 export const metadata = constructMetadata();
 
+// structured data for SEO
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "PixCase",
+  alternateName: "PixCase",
+  url: "https://pixcase.vercel.app",
+  logo: "https://pixcase.vercel.app/favicon.ico",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,6 +39,10 @@ export default function RootLayout({
         </main>
 
         <Toaster />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </body>
     </html>
   );
