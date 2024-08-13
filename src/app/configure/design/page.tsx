@@ -10,12 +10,12 @@ interface PageProps {
 }
 // step2: custom design
 const Page = async ({ searchParams }: PageProps) => {
-  const { id } = searchParams;
+  const { id } = searchParams;   // url pass configuration id to this page (cross page communication)
   if (!id || typeof id !== "string") {
     return notFound();
   }
 
-  // fetch configuration from db
+  // fetch configuration from db (// we just save configuration data in db in step1)
   const configuration = await db.configuration.findUnique({
     where: { id },
   });
@@ -23,7 +23,7 @@ const Page = async ({ searchParams }: PageProps) => {
     return notFound();
   }
 
-  const { imageUrl, width, height } = configuration;
+  const { imageUrl, width, height } = configuration;  
 
   return (
     <DesignConfigurator

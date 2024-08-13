@@ -16,21 +16,29 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Tech stack
 
-## Learn More
+Front-End
++ [Next.js](https://nextjs.org/docs) (App route)
+  + [server action](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) 
++ [Tailwind CSS](https://tailwindcss.com/docs/installation)
++ Network: [tanstack/react-query](https://tanstack.com/query/latest/docs/framework/react/quick-start)
++ UI lib: [shadcn](https://ui.shadcn.com) 
++ Animation lib: [framer-motion](https://www.framer.com/motion/introduction/) 
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Database:
++ [Prisma](https://www.prisma.io) as ORM
++ [Neon PostgreSQL](https://neon.tech/?gad_source=1&gclid=CjwKCAjw74e1BhBnEiwAbqOAjDAIhesSJ2hrVZbfArbWpZEQJYBlQHw5378X961Sy71MU6dSklDBExoC7JEQAvD_BwE) -> providing out of box database deployment on top of AWS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+3rd party service integrations: 
++ [uploadthing](https://docs.uploadthing.com): File uploading service
++ [stripe](https://docs.stripe.com/payments/checkout): Payment service
++ [kinde](https://docs.kinde.com/developer-tools/sdks/backend/nextjs-sdk/): Auth service
++ [resend](https://www.resend.com/docs/introduction): Email service
+  + integrated with [react-email](https://react.email/docs/introduction) for build email page
+  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Deployed on vercel
